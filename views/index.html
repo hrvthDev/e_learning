@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="stylesheet2.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<title>A Web Működése – Alapismeretek</title>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>A <span>Web</span> Működése<br>– Alapoktól a Biztonságig</h1>
+    <p class="header-subtitle">Átfogó áttekintés a webes kommunikáció elveiről: protokollok, modellek, HTML/CSS, URL-ek és biztonsági alapok – az OSI-modell tükrében.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#web">A Web</a>
+    <a href="#kliens-szerver">Kliens–Szerver</a>
+    <a href="#http">HTTP</a>
+    <a href="#url">URL</a>
+    <a href="#html-css">HTML &amp; CSS</a>
+    <a href="#osi">OSI-modell</a>
+    <a href="#biztonsag">Biztonság</a>
+    <a href="/test">Teszt kitöltés</a>
+    <a href="#oop">Objektumorientált Programozás (OOP)</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="section" id="web">
+    <h2>A Web működésének alapjai</h2>
+
+    <p>A <strong>World Wide Web (WWW)</strong> egy globális, hiperhivatkozásokkal összekapcsolt információs rendszer, amely az interneten fut. Fontos különbség: az <em>internet</em> a fizikai és logikai hálózati infrastruktúra összessége (kábelek, routerek, protokollok), míg a <em>web</em> csupán az egyik szolgáltatás, amely ezen az infrastruktúrán működik – a többi mellett, mint pl. e-mail, FTP vagy VoIP.</p>
+
+    <p>A web alapelve a <strong>hipermédiarendszer</strong>: dokumentumok (weboldalak) hivatkoznak egymásra, amelyeket egy böngésző kér le és jelenít meg. A kommunikáció három alaptechnológiára épül:</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <h4>URL</h4>
+        <p>Uniform Resource Locator – egyedi cím, amely azonosítja az erőforrást a hálózaton. Megmondja, <em>hol</em> és <em>hogyan</em> érhető el az adott oldal vagy fájl.</p>
+      </div>
+      <div class="card">
+        <h4>HTTP</h4>
+        <p>HyperText Transfer Protocol – a kommunikációs szabályrendszer, amellyel a böngésző lekéri és a szerver kiszolgálja a tartalmakat.</p>
+      </div>
+      <div class="card">
+        <h4>HTML</h4>
+        <p>HyperText Markup Language – a weboldalak tartalmát leíró jelölőnyelv. A böngésző ezt értelmezi és jeleníti meg a képernyőn.</p>
+      </div>
+      <div class="card">
+        <h4>DNS</h4>
+        <p>Domain Name System – névfeloldó rendszer: a human-readable domainnevet (pl. <code>google.com</code>) IP-címmé alakítja, amelyet a számítógépek használnak.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="kliens-szerver">
+    <h2>A Kliens–Szerver modell</h2>
+
+    <p>A web a <strong>kliens–szerver architektúrán</strong> alapul. Ez egy aszimmetrikus kommunikációs modell: két jól elkülönített szereplő vesz részt benne, különböző szerepekkel.</p>
+
+    <div class="callout">
+      <h4>▶ Kliens</h4>
+      <p>A kliens az, aki <strong>kér</strong>. Általában egy webböngésző (Chrome, Firefox, Safari), de lehet mobilalkalmazás, parancssori eszköz (curl) vagy bármilyen szoftver, amely HTTP-kéréseket küld. A kliens a felhasználó eszközén fut, és az ő nevében kommunikál.</p>
+      <h4 style="margin-top:18px;">▶ Szerver</h4>
+      <p>A szerver az, aki <strong>kiszolgál</strong>. Egy folyamatosan futó számítógép (vagy számítógépcsoport), amely megvárja a bejövő kéréseket, feldolgozza azokat, és visszaküldi a választ. Webszerverek pl. Apache, Nginx, vagy felhőalapú megoldások.</p>
+    </div>
+
+    <p>A modell alapja a <strong>kérés–válasz (request–response) ciklus</strong>: a kliens kérést küld, a szerver válaszol. A szerver nem küld adatot spontán (kivéve modern technológiáknál, pl. WebSocket vagy Server-Sent Events esetén). A rendszer jól skálázható: egy szerver egyszerre sok klienst tud kiszolgálni.</p>
+
+    <h3>Statikus vs. dinamikus tartalom</h3>
+    <p>A szerver kétféle tartalmat küldhet vissza. A <strong>statikus tartalom</strong> előre elkészített fájl (HTML, kép, CSS), amelyet a szerver változtatás nélkül küld. A <strong>dinamikus tartalom</strong> a szerveren generálódik valós időben – pl. adatbázis-lekérdezés alapján – és személyre szabott eredményt ad vissza (bejelentkezett felhasználó adatai, aktuális hírek).</p>
+
+    <table>
+      <thead>
+        <tr><th>Jellemző</th><th>Kliens (Frontend)</th><th>Szerver (Backend)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hol fut?</td><td>Felhasználó böngészőjében</td><td>Adatközpontban, felhőben</td></tr>
+        <tr><td>Technológiák</td><td>HTML, CSS, JavaScript</td><td>PHP, Python, Node.js, Java, Go…</td></tr>
+        <tr><td>Feladata</td><td>Megjelenítés, interakció</td><td>Adatkezelés, üzleti logika, biztonság</td></tr>
+        <tr><td>Látható?</td><td>Igen (forráskód megtekinthető)</td><td>Nem (rejtett a kliens előtt)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="http">
+    <h2>HTTP protokoll</h2>
+
+    <p>A <strong>HTTP (HyperText Transfer Protocol)</strong> egy szöveges alapú, alkalmazásrétegbeli protokoll, amely meghatározza, hogyan kommunikálnak a böngészők és a szerverek. Jellemzője, hogy <em>állapotmentes (stateless)</em>: minden kérés–válasz pár független egymástól, a szerver nem „emlékszik" az előző kérésre. A munkamenet-kezelést (bejelentkezési állapot megőrzése) sütik vagy tokenek biztosítják.</p>
+
+    <h3>HTTP kérés felépítése</h3>
+    <pre><code><span class="comment">// HTTP kérés (Request)</span>
+<span class="tag">GET</span> <span class="val">/index.html</span> HTTP/1.1
+<span class="attr">Host:</span>            <span class="val">www.pelda.hu</span>
+<span class="attr">Accept:</span>          <span class="val">text/html,application/xhtml+xml</span>
+<span class="attr">Accept-Language:</span> <span class="val">hu-HU,hu;q=0.9</span>
+<span class="attr">Connection:</span>      <span class="val">keep-alive</span>
+<span class="attr">Cookie:</span>          <span class="val">session=abc123</span>
+
+<span class="comment">// (üres sor jelzi a fejléc végét; utána jön az üzenettörzs, POST esetén)</span></code></pre>
+
+    <h3>HTTP válasz felépítése</h3>
+    <pre><code><span class="comment">// HTTP válasz (Response)</span>
+HTTP/1.1 <span class="tag">200</span> <span class="val">OK</span>
+<span class="attr">Content-Type:</span>               <span class="val">text/html; charset=UTF-8</span>
+<span class="attr">Content-Length:</span>             <span class="val">3456</span>
+<span class="attr">Server:</span>                     <span class="val">nginx/1.24.0</span>
+<span class="attr">Set-Cookie:</span>                 <span class="val">session=abc123; Secure; HttpOnly</span>
+<span class="attr">Strict-Transport-Security:</span>  <span class="val">max-age=31536000; includeSubDomains</span>
+
+&lt;html&gt;...az oldal tartalma...&lt;/html&gt;</code></pre>
+
+    <h3>HTTP metódusok</h3>
+    <table>
+      <thead><tr><th>Metódus</th><th>Jelentés</th><th>Tipikus használat</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GET</strong></td><td>Adatlekérés</td><td>Oldal betöltése, keresés – nem módosít adatot</td></tr>
+        <tr><td><strong>POST</strong></td><td>Adat küldése</td><td>Űrlap beküldése, bejelentkezés, létrehozás</td></tr>
+        <tr><td><strong>PUT</strong></td><td>Teljes csere</td><td>Erőforrás teljes frissítése (REST API)</td></tr>
+        <tr><td><strong>PATCH</strong></td><td>Részleges módosítás</td><td>Egy-egy mező megváltoztatása</td></tr>
+        <tr><td><strong>DELETE</strong></td><td>Törlés</td><td>Bejegyzés törlése</td></tr>
+        <tr><td><strong>HEAD</strong></td><td>Csak fejléc lekérése</td><td>Fájlméret, módosítási dátum ellenőrzése</td></tr>
+        <tr><td><strong>OPTIONS</strong></td><td>Lehetőségek lekérdezése</td><td>CORS preflight kérések</td></tr>
+      </tbody>
+    </table>
+
+    <h3>HTTP státuszkódok</h3>
+    <table>
+      <thead><tr><th>Kód</th><th>Kategória</th><th>Legfontosabb példák</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1xx</strong></td><td>Tájékoztató</td><td>100 Continue, 101 Switching Protocols</td></tr>
+        <tr><td><strong>2xx</strong></td><td>Sikeres</td><td>200 OK, 201 Created, 204 No Content</td></tr>
+        <tr><td><strong>3xx</strong></td><td>Átirányítás</td><td>301 Moved Permanently, 302 Found, 304 Not Modified</td></tr>
+        <tr><td><strong>4xx</strong></td><td>Kliens hiba</td><td>400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 429 Too Many Requests</td></tr>
+        <tr><td><strong>5xx</strong></td><td>Szerver hiba</td><td>500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="url">
+    <h2>URL – Uniform Resource Locator</h2>
+
+    <p>Az <strong>URL</strong> egy egységes erőforrás-azonosító: megmondja a böngészőnek, hogy <em>milyen protokollon</em>, <em>melyik szerveren</em>, <em>melyik útvonalon</em> és <em>milyen paraméterekkel</em> érhető el egy adott erőforrás. Az URL az RFC 3986 szabvány alapján épül fel.</p>
+
+    <p>Egy teljes URL szerkezete:</p>
+
+    <div class="url-bar">
+      <span class="url-scheme">https://</span><span class="url-auth">felhasznalo:jelszo@</span><span class="url-host">www.pelda.hu</span><span class="url-port">:8080</span><span class="url-path">/blog/2024/cikk</span><span class="url-query">?oldal=2&amp;kategoria=tech</span><span class="url-frag">#bevezetes</span>
+      <div class="url-legend">
+        <span style="background:#88c0d0;color:#1a1a2e;">Séma</span>
+        <span style="background:#a3be8c;color:#1a1a2e;">Hitelesítés</span>
+        <span style="background:#ebcb8b;color:#1a1a2e;">Gazdagép</span>
+        <span style="background:#d08770;color:#1a1a2e;">Port</span>
+        <span style="background:#bf616a;color:white;">Elérési út</span>
+        <span style="background:#b48ead;color:white;">Lekérdezés</span>
+        <span style="background:#81a1c1;color:white;">Fragment</span>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Rész</th><th>Példa</th><th>Leírás</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Séma</strong></td><td><code>https://</code></td><td>Protokoll meghatározása: http, https, ftp, mailto, tel…</td></tr>
+        <tr><td><strong>Hitelesítés</strong></td><td><code>user:pass@</code></td><td>Opcionális; biztonsági okokból kerülendő, ma ritkán használt</td></tr>
+        <tr><td><strong>Gazdagép</strong></td><td><code>www.pelda.hu</code></td><td>Domain neve vagy IP-cím; a DNS fordítja le IP-re</td></tr>
+        <tr><td><strong>Port</strong></td><td><code>:8080</code></td><td>Opcionális; HTTP alapért. 80, HTTPS: 443 (elhagyható ha alapért.)</td></tr>
+        <tr><td><strong>Elérési út</strong></td><td><code>/blog/2024/cikk</code></td><td>A szerveren belüli erőforrás helye, „/" karakterrel elválasztva</td></tr>
+        <tr><td><strong>Lekérdezés</strong></td><td><code>?oldal=2&amp;kat=tech</code></td><td><code>kulcs=érték</code> párok <code>&amp;</code>-vel elválasztva; <code>?</code>-vel kezdődik</td></tr>
+        <tr><td><strong>Fragment</strong></td><td><code>#bevezetes</code></td><td>Oldalon belüli horgony; nem kerül el a szerverre</td></tr>
+      </tbody>
+    </table>
+
+    <h3>URL-kódolás (Percent Encoding)</h3>
+    <p>Mivel az URL csak biztonságos ASCII karaktereket tartalmazhat, a speciális karaktereket <strong>százalékos kódolással</strong> kell jelölni: a karakter UTF-8 bájtkódja elé <code>%</code> jelet írunk. Például szóköz = <code>%20</code>, „é" = <code>%C3%A9</code>, „&amp;" = <code>%26</code>. A modern böngészők ezt automatikusan elvégzik.</p>
+
+    <h3>Relatív vs. abszolút URL</h3>
+    <p>Az <strong>abszolút URL</strong> tartalmazza a sémát és a teljes gazdagépet is (<code>https://pelda.hu/oldal</code>). A <strong>relatív URL</strong> csak az aktuális dokumentumhoz képest értendő (<code>../kepek/logo.png</code> vagy <code>/stilus.css</code>), és a böngésző az aktuális oldal bázis-URL-jéhez egészíti ki automatikusan.</p>
+  </section>
+
+  <section class="section" id="html-css">
+    <h2>HTML és CSS alapjai</h2>
+
+    <h3>HTML – A tartalom és struktúra nyelve</h3>
+    <p>A <strong>HTML (HyperText Markup Language)</strong> leíró jelölőnyelv – nem programozási nyelv. Feladata a weboldal <em>tartalmának és struktúrájának</em> meghatározása: mi a főcím, mi a bekezdés, mi a lista, mi a hivatkozás, mi a kép. A böngésző a HTML-t értelmezi és belőle egy <strong>DOM-fát (Document Object Model)</strong> épít, amelyet a képernyőn megjelenít.</p>
+
+    <pre><code><span class="comment">&lt;!-- HTML dokumentum alapszerkezete --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"hu"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Az oldal böngészőfülön megjelenő neve<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"stilus.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Főcím<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;nav&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/rolunk"</span><span class="tag">&gt;</span>Rólunk<span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/kapcsolat"</span><span class="tag">&gt;</span>Kapcsolat<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;/header&gt;</span>
+
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;article&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>Cikk címe<span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Bekezdés szövege, benne egy
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://pelda.hu"</span><span class="tag">&gt;</span>hivatkozással<span class="tag">&lt;/a&gt;</span>.
+      <span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"kep.jpg"</span> <span class="attr">alt</span>=<span class="val">"A kép szöveges leírása (akadálymentesség)"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
+    <span class="tag">&lt;aside&gt;</span>Oldalsáv tartalom<span class="tag">&lt;/aside&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+
+  <span class="tag">&lt;footer&gt;</span>Lábléc – szerzői jog, kapcsolat<span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+    <p>A HTML <strong>elemekből (elements)</strong> áll, amelyek nyitó (<code>&lt;p&gt;</code>) és záró (<code>&lt;/p&gt;</code>) <strong>tagekből</strong> állnak. Az elemek <strong>attribútumokkal</strong> egészíthetők ki (<code>href</code>, <code>class</code>, <code>id</code>, <code>alt</code>). Vannak önzáró (void) elemek is: <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;meta&gt;</code>.</p>
+
+    <h3>Szemantikus HTML</h3>
+    <p>A <strong>szemantikus elemek</strong> nemcsak megjelenítési, hanem <em>jelentésbeli</em> információt hordoznak. Ilyen elemek: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;figure&gt;</code>, <code>&lt;time&gt;</code>. Fontosak a <strong>SEO</strong>, a <strong>képernyőolvasók</strong> (akadálymentesség) és a kód olvashatósága szempontjából.</p>
+
+    <h3>CSS – A megjelenés és elrendezés nyelve</h3>
+    <p>A <strong>CSS (Cascading Style Sheets)</strong> stílusleíró nyelv, amely meghatározza, <em>hogyan néz ki</em> a HTML: szín, betűtípus, méret, térköz, elrendezés, animációk, reszponzivitás. A CSS elkülöníti a tartalmat a megjelenéstől – ez az egyik legfontosabb webfejlesztési alapelv, amely átláthatóvá és karbantarthatóvá teszi a kódot.</p>
+
+    <pre><code><span class="comment">/* CSS alapszerkezete: szelektor { tulajdonság: érték; } */</span>
+
+<span class="comment">/* Elem szelektor */</span>
+<span class="prop">h1</span> {
+  <span class="attr">font-family:</span> <span class="val">'Georgia', serif</span>;
+  <span class="attr">font-size:</span>   <span class="val">2.4rem</span>;         <span class="comment">/* relatív egység: gyökérelem betűméretéhez képest */</span>
+  <span class="attr">color:</span>       <span class="val">#1a1a2e</span>;
+  <span class="attr">margin-bottom:</span> <span class="val">24px</span>;
+}
+
+<span class="comment">/* Osztály szelektor (.classname) */</span>
+<span class="prop">.kiemelt-gomb</span> {
+  <span class="attr">background-color:</span> <span class="val">#c0392b</span>;
+  <span class="attr">color:</span>            <span class="val">white</span>;
+  <span class="attr">padding:</span>          <span class="val">12px 28px</span>;   <span class="comment">/* fent-lent 12px, jobb-bal 28px */</span>
+  <span class="attr">border-radius:</span>    <span class="val">4px</span>;
+  <span class="attr">cursor:</span>           <span class="val">pointer</span>;
+  <span class="attr">transition:</span>       <span class="val">background 0.2s ease</span>;
+}
+
+<span class="comment">/* Pszeudo-osztály */</span>
+<span class="prop">.kiemelt-gomb:hover</span> {
+  <span class="attr">background-color:</span> <span class="val">#922b21</span>;
+}
+
+<span class="comment">/* CSS változók (Custom Properties) */</span>
+<span class="prop">:root</span> {
+  <span class="attr">--foszin:</span>     <span class="val">#1a1a2e</span>;
+  <span class="attr">--kiemel:</span>     <span class="val">#c0392b</span>;
+}
+
+<span class="comment">/* Reszponzív: média lekérdezés */</span>
+<span class="kw">@media</span> (max-width: 768px) {
+  <span class="prop">h1</span> { <span class="attr">font-size:</span> <span class="val">1.6rem</span>; }
+  <span class="prop">.nav</span> { <span class="attr">flex-direction:</span> <span class="val">column</span>; }
+}</code></pre>
+
+    <h3>A CSS dobozmodell (Box Model)</h3>
+    <p>Minden HTML elem egy dobozt alkot, amelynek négy rétege van kívülről befelé haladva: <strong>margin</strong> (külső térköz, átlátszó) → <strong>border</strong> (keret) → <strong>padding</strong> (belső térköz) → <strong>content</strong> (tényleges tartalom). A helyes elrendezéshez elengedhetetlen ennek megértése. A <code>box-sizing: border-box</code> CSS-beállítással a padding és border beleszámít a megadott szélességbe, ami kiszámíthatóbbá teszi a layoutot.</p>
+
+    <h3>Elrendezési rendszerek</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Flexbox</h4>
+        <p>Egydimenziós elrendezés (sor <em>vagy</em> oszlop). Elemek rugalmas igazítására, sorba rendezésére, középre helyezésére ideális. Tipikus használat: navigáció, kártyasor, fejléc.</p>
+      </div>
+      <div class="card">
+        <h4>CSS Grid</h4>
+        <p>Kétdimenziós rácsos elrendezés (sorok <em>és</em> oszlopok egyszerre). Komplex oldalelrendezések, dashboardok, galériák, magazin-layoutok készítésére alkalmas.</p>
+      </div>
+    </div>
+
+    <h3>CSS beillesztési módok</h3>
+    <p>CSS háromféleképpen kapcsolható HTML-hez. A legjobb és ajánlott megközelítés a <strong>külső fájl</strong> (<code>&lt;link rel="stylesheet" href="stilus.css"&gt;</code> a <code>&lt;head&gt;</code>-ben), amely szétválasztja a tartalmat és a megjelenést, böngészőgyorsítótár-barát, és újrafelhasználható. A <strong>belső stílus</strong> (<code>&lt;style&gt;</code> tag a <code>&lt;head&gt;</code>-ben) alkalmanként hasznos, de kerülendő nagyobb projekteknél. Az <strong>inline stílus</strong> (<code>style="..."</code> attribútum) csak végső megoldásként alkalmazandó, nehezíti a karbantartást és felülírja a többi stílust.</p>
+  </section>
+
+  <section class="section" id="osi">
+    <h2>OSI-modell és a web kapcsolódása</h2>
+
+    <p>Az <strong>OSI (Open Systems Interconnection) modell</strong> egy ISO-szabvány, amely a hálózati kommunikációt <strong>7 egymásra épülő rétegre</strong> bontja. Minden rétegnek jól meghatározott feladata van, és csak a szomszédos rétegekkel kommunikál. Célja a rendszerek tervezésének és hibakeresésének megkönnyítése, valamint különböző gyártók eszközeinek együttműködésének biztosítása.</p>
+
+    <p>A webes kommunikáció során az összes réteg együttesen dolgozik – a böngésző (7. réteg) kérése „lemegy" az összes rétegen, fizikailag eljut a szerverre, ott „felmegy", feldolgozódik, és a válasz ugyanígy tér vissza.</p>
+
+    <div style="margin: 28px 0;">
+
+      <div class="osi-row">
+        <div class="osi-num osi-hl-num">7</div>
+        <div class="osi-body osi-hl-body">
+          <strong>Alkalmazás réteg (Application Layer)</strong>
+          <span>HTTP, HTTPS, FTP, DNS, SMTP, WebSocket – itt dolgozik közvetlenül a böngésző és a webszerver. Ez a réteg definiálja a webes kérés–válasz kommunikáció szabályait és formátumát.</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num osi-gold-num">6</div>
+        <div class="osi-body osi-gold-body">
+          <strong>Megjelenítési réteg (Presentation Layer)</strong>
+          <span>Adatkódolás, titkosítás/visszafejtés (TLS/SSL), tömörítés, formátum-konverzió. A HTTPS biztonságát a TLS-kézfogás biztosítja ezen a rétegen – a szimmetrikus titkosítási kulcsok csere itt zajlik.</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num">5</div>
+        <div class="osi-body">
+          <strong>Viszonyréteg (Session Layer)</strong>
+          <span>Munkamenetek (session) létrehozása, fenntartása és lezárása. A böngészős munkamenet-sütik logikailag ehhez a réteghez kapcsolódnak; szinkronizációs pontok és adatfolyam-kezelés.</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num osi-hl-num">4</div>
+        <div class="osi-body osi-hl-body">
+          <strong>Szállítási réteg (Transport Layer)</strong>
+          <span>TCP és UDP protokollok. A web alapja a <strong>TCP</strong>: megbízható, sorrendhelyes adatszállítást biztosít, hibás csomagokat újraküld. Portszámokat kezel (HTTP:80, HTTPS:443). HTTP/3 esetén UDP-alapú QUIC-ot alkalmaz.</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num">3</div>
+        <div class="osi-body">
+          <strong>Hálózati réteg (Network Layer)</strong>
+          <span>IP-cím alapú útválasztás (routing): IP-csomagok eljuttatása a forrástól a célig, routerek hálózatán keresztül. IPv4 (32 bit) és IPv6 (128 bit) protokollok.</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num">2</div>
+        <div class="osi-body">
+          <strong>Adatkapcsolati réteg (Data Link Layer)</strong>
+          <span>MAC-cím alapú kommunikáció a közvetlen hálózati szegmensen belül. Ethernet és Wi-Fi (IEEE 802.11) keretek összeállítása, hibaellenőrzés (CRC), ütközésvédelem (CSMA/CD).</span>
+        </div>
+      </div>
+
+      <div class="osi-row">
+        <div class="osi-num">1</div>
+        <div class="osi-body">
+          <strong>Fizikai réteg (Physical Layer)</strong>
+          <span>Nyers bitátvitel fizikai közegen: rézkábel (elektromos jelként), optikai szál (fényjelként), rádióhullám (Wi-Fi, 4G/5G). Jelszintek, csatlakozók, átviteli sebességek meghatározása.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="biztonsag">
+    <h2>Alapvető biztonsági elvek</h2>
+
+    <p>A web nyílt természetéből adódóan számos biztonsági kockázat létezik. Az alábbiakban a legfontosabb elvek és fenyegetések kerülnek bemutatásra, amelyeket minden fejlesztőnek és felhasználónak ismernie kell.</p>
+
+    <div class="security-item">
+      <div class="sec-icon">🔒</div>
+      <div class="sec-body">
+        <h4>HTTPS és TLS titkosítás</h4>
+        <p>Minden weboldal <strong>HTTPS-t</strong> kell használjon. A <strong>TLS (Transport Layer Security)</strong> titkosítja az összes kommunikációt a böngésző és a szerver között, így lehallgatás esetén sem olvasható a tartalom. Az érvényes <strong>digitális tanúsítvány</strong> (SSL/TLS cert) hitelesíti a szerver személyazonosságát – garantálja, hogy valóban a várt szerverrel kommunikálunk, nem közvetítővel (<em>man-in-the-middle</em> támadás). A <strong>HSTS (HTTP Strict Transport Security)</strong> fejléc kikényszeríti a HTTPS-t az összes jövőbeli kérésnél.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">🛡️</div>
+      <div class="sec-body">
+        <h4>XSS – Cross-Site Scripting</h4>
+        <p>Az XSS egy olyan támadás, ahol a támadó kártékony JavaScript kódot injektál az oldalba, amelyet más felhasználók böngészőjében futtatnak le (adatlopás, munkamenet-eltérítés). Védekezés: minden felhasználói bevitelt <strong>szanitizálni és escapelni</strong> kell megjelenítés előtt; <strong>Content Security Policy (CSP)</strong> fejléc beállítása, amely meghatározza, honnan tölthetők szkriptek; <code>HttpOnly</code> sütik, hogy JavaScript ne férhessen hozzá a session-tokenekhez.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">💉</div>
+      <div class="sec-body">
+        <h4>SQL Injection</h4>
+        <p>Ha a felhasználói adatokat közvetlenül beleillesztik az adatbázis-lekérdezésbe, a támadó manipulálhatja azt – akár az egész adatbázist kiolvashatja vagy törölheti. Ellene védekezés: kizárólag <strong>paraméteres lekérdezések (prepared statements)</strong> és <strong>ORM</strong> (Object-Relational Mapping) használata; soha ne legyen közvetlen string-összefűzés SQL-kódban.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">🔄</div>
+      <div class="sec-body">
+        <h4>CSRF – Cross-Site Request Forgery</h4>
+        <p>A támadó egy másik oldalon elhelyez egy kérést, amelyet a bejelentkezett felhasználó nevében küld el (pl. jelszóváltoztatás, átutalás indítása). A böngésző automatikusan elküldi a céloldal sütiit. Védekezés: <strong>CSRF-token</strong> az űrlapokban (egyedi, egyszer érvényes érték), <code>SameSite=Strict</code> vagy <code>Lax</code> süti attribútum, <code>Origin</code> fejléc ellenőrzése.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">🔑</div>
+      <div class="sec-body">
+        <h4>Biztonságos hitelesítés és jelszókezelés</h4>
+        <p>Jelszavakat tilos plaintext-ben tárolni – csak <strong>sózott kriptográfiai hash</strong> formában (bcrypt, Argon2, scrypt ajánlott). A munkamenet-azonosítókat <code>HttpOnly</code> és <code>Secure</code> sütikben kell tárolni. Erős jelszópolitika (hosszúság, komplexitás), automatikus munkamenet-lejárat, és ahol lehetséges, <strong>kétfaktoros hitelesítés (2FA/MFA)</strong> alkalmazása.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">📋</div>
+      <div class="sec-body">
+        <h4>HTTP biztonsági fejlécek</h4>
+        <p>A szerver válaszában elhelyezett fejlécek fontos védelmi réteget alkotnak: <code>Content-Security-Policy</code> meghatározza, honnan tölthetők be erőforrások; <code>X-Frame-Options: DENY</code> megakadályozza a <em>clickjacking</em> támadásokat; <code>X-Content-Type-Options: nosniff</code> gátolja a MIME-típus tévesztést; <code>Referrer-Policy</code> szabályozza, milyen URL-t küld a böngésző a Referer fejlécben.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">🌐</div>
+      <div class="sec-body">
+        <h4>CORS – Cross-Origin Resource Sharing</h4>
+        <p>A böngésző <strong>Same-Origin Policy</strong> (azonos eredet szabálya) alapján megakadályozza, hogy egy weboldal más domainről kérjen le adatokat JavaScript-tel – ez alapértelmezés szerint védi a felhasználót. A <strong>CORS</strong> egy szabályozott mechanizmus, amellyel a szerver kifejezetten engedélyezhet bizonyos más domaineket. Helytelen konfiguráció (pl. <code>Access-Control-Allow-Origin: *</code> hitelesített API-kon) komoly biztonsági kockázatot jelent.</p>
+      </div>
+    </div>
+
+    <div class="security-item">
+      <div class="sec-icon">⚡</div>
+      <div class="sec-body">
+        <h4>DoS / DDoS és sebességkorlátozás</h4>
+        <p>A <strong>Denial of Service (DoS)</strong> támadás elárasztja a szervert kérésekkel, hogy az elérhetetlenné váljon. Elosztott (DDoS) esetén ez sok gépről egyszerre történik. Védekezés: <strong>rate limiting</strong> (percenkénti kérésszám-korlátozás IP-nként), <strong>WAF (Web Application Firewall)</strong>, CDN-alapú forgalomszűrés, és felhőalapú DDoS-védelmi szolgáltatások (pl. Cloudflare, AWS Shield).</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="oop">
+  <h2>Objektumorientált Programozás (OOP)</h2>
+
+  <p>Az <strong>OOP (Object-Oriented Programming)</strong>, vagyis objektumorientált programozás egy olyan programozási paradigma, amely a programot egymással együttműködő <strong>objektumok</strong> formájában modellezi. Az objektumok adatokat (<em>attribútumok</em>) és az adatokon végzett műveleteket (<em>metódusok</em>) egyetlen egységbe szervezik.</p>
+
+  <div class="callout">
+    <h4>▶ Miért használjuk az OOP-t?</h4>
+    <p>
+      Az objektumorientált megközelítés lehetővé teszi a kód jobb
+      szervezését, újrafelhasználhatóságát és karbantarthatóságát.
+      Nagyobb projektek esetén jelentősen csökkenti a komplexitást,
+      mivel a valós világ elemei könnyebben modellezhetők objektumokként.
+    </p>
+  </div>
+
+  <h3>Alapfogalmak</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fogalom</th>
+        <th>Leírás</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Osztály (Class)</strong></td>
+        <td>Egy sablon vagy tervrajz, amely meghatározza az objektumok tulajdonságait és viselkedését.</td>
+      </tr>
+      <tr>
+        <td><strong>Objektum (Object)</strong></td>
+        <td>Egy osztály konkrét példánya, amely rendelkezik saját adatokkal és metódusokkal.</td>
+      </tr>
+      <tr>
+        <td><strong>Attribútum</strong></td>
+        <td>Az objektum által tárolt adat vagy tulajdonság.</td>
+      </tr>
+      <tr>
+        <td><strong>Metódus</strong></td>
+        <td>Az objektumhoz tartozó függvény, amely valamilyen műveletet hajt végre.</td>
+      </tr>
+      <tr>
+        <td><strong>Konstruktor</strong></td>
+        <td>Speciális metódus, amely az objektum létrehozásakor fut le.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Példa JavaScript osztályra</h3>
+
+  <pre><code><span class="comment">// Osztály létrehozása</span>
+
+<span class="kw">class</span> <span class="tag">Auto</span> {
+
+  <span class="kw">constructor</span>(marka, szin) {
+    <span class="kw">this</span>.marka = marka;
+    <span class="kw">this</span>.szin = szin;
+  }
+
+  indit() {
+    <span class="kw">return</span> <span class="val">`${this.marka} elindult.`</span>;
+  }
+}
+
+<span class="comment">// Objektum létrehozása</span>
+
+<span class="kw">const</span> auto1 = <span class="kw">new</span> Auto(<span class="val">"Toyota"</span>, <span class="val">"piros"</span>);
+
+console.log(auto1.indit());</code></pre>
+
+  <p>
+    A fenti példában az <strong>Auto</strong> egy osztály,
+    míg az <strong>auto1</strong> egy objektum.
+    Az objektum rendelkezik saját attribútumokkal
+    (<code>marka</code>, <code>szin</code>) és metódussal
+    (<code>indit()</code>).
+  </p>
+
+  <h3>Az OOP négy alappillére</h3>
+
+  <div class="grid-2">
+
+    <div class="card">
+      <h4>1. Egységbezárás (Encapsulation)</h4>
+      <p>
+        Az adatok és a hozzájuk tartozó műveletek egy objektumba
+        kerülnek. A belső működés elrejthető a külvilág elől,
+        így csökken a hibalehetőség.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>2. Öröklődés (Inheritance)</h4>
+      <p>
+        Egy osztály átveheti egy másik osztály tulajdonságait
+        és metódusait. Ez elősegíti a kód újrafelhasználását.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>3. Polimorfizmus (Polymorphism)</h4>
+      <p>
+        Ugyanaz a metódus különböző objektumok esetén eltérő
+        módon viselkedhet. Ez rugalmasabb programtervezést tesz lehetővé.
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>4. Absztrakció (Abstraction)</h4>
+      <p>
+        Csak a lényeges tulajdonságokat jelenítjük meg,
+        a bonyolult belső működést elrejtjük a felhasználó elől.
+      </p>
+    </div>
+
+  </div>
+
+  <h3>Öröklődés példa</h3>
+
+  <pre><code><span class="kw">class</span> <span class="tag">Jarmu</span> {
+
+  mozog() {
+    console.log(<span class="val">"A jármű mozog."</span>);
+  }
+}
+
+<span class="kw">class</span> <span class="tag">Auto</span> <span class="kw">extends</span> Jarmu {
+
+  dudal() {
+    console.log(<span class="val">"Dudálás..."</span>);
+  }
+}
+
+<span class="kw">const</span> auto = <span class="kw">new</span> Auto();
+
+auto.mozog();
+auto.dudal();</code></pre>
+
+  <p>
+    Az <strong>Auto</strong> osztály örökli a
+    <strong>Jarmu</strong> osztály metódusait, ezért
+    használhatja a <code>mozog()</code> függvényt is.
+  </p>
+
+  <h3>Az OOP előnyei</h3>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Újrafelhasználhatóság</h4>
+      <p>Az osztályok és komponensek több helyen is használhatók.</p>
+    </div>
+
+    <div class="card">
+      <h4>Karbantarthatóság</h4>
+      <p>A jól strukturált kód könnyebben módosítható és bővíthető.</p>
+    </div>
+
+    <div class="card">
+      <h4>Átláthatóság</h4>
+      <p>A program logikája könnyebben követhető és dokumentálható.</p>
+    </div>
+
+    <div class="card">
+      <h4>Modularitás</h4>
+      <p>A rendszer kisebb, önálló részekre bontható.</p>
+    </div>
+  </div>
+
+  <h3>Hol használják az OOP-t?</h3>
+
+  <p>
+    Az objektumorientált programozás számos modern nyelv alapja:
+    <strong>Java</strong>, <strong>C++</strong>,
+    <strong>C#</strong>, <strong>Python</strong>,
+    <strong>JavaScript</strong>, <strong>PHP</strong> és sok más.
+    Különösen elterjedt vállalati alkalmazások,
+    játékfejlesztés, mobilalkalmazások és webes backend rendszerek
+    készítése során.
+  </p>
+
+</section>
+
+</main>
+
+<footer>
+</footer>
+
+</body>
+</html>
